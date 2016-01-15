@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.leadertun.android.jsonparsingmysqldb.adapter.UserAdapter;
 import com.leadertun.android.jsonparsingmysqldb.wrapper.response.MyResponse.UserResponse;
 
 import com.google.gson.Gson;
@@ -36,7 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
     boolean mResult = false;
 
-    private ArrayList<UserWrapper> ReceiveUsers;
+    private ArrayList<UserWrapper> receiveUsers;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter<UserAdapter.ViewHolder> mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +61,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        initRecyclerView();
         updateListUsers();
+        //initData();
+
+
+    }
+
+    private void initData() {
+        receiveUsers = new ArrayList<UserWrapper>();
+
+        mUserWrapper = new UserWrapper();
+
+        mUserWrapper.setId(1);
+        mUserWrapper.setNom("adnen");
+        mUserWrapper.setTel(22425893);
+        mUserWrapper.setmAge(30);
+        mUserWrapper.setmMail("adnen.hamdouni@gmail.com");
+        mUserWrapper.setNomUtilisateur("me");
+        mUserWrapper.setMotDePasse("you");
+
+        receiveUsers.add(mUserWrapper);
     }
 
     @Override
@@ -77,6 +104,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initRecyclerView() {
+
+
+        receiveUsers = new ArrayList<UserWrapper>();
+
+        mUserWrapper = new UserWrapper();
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_card_list);
+
+        mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new UserAdapter(receiveUsers);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     private void updateListUsers() {
@@ -116,8 +161,6 @@ public class MainActivity extends AppCompatActivity {
             if (mUserResponse.getSuccess() == 1) {
                 Log.v(TAG, "chargement réussite");
 
-                ReceiveUsers = new ArrayList<UserWrapper>();
-
                 mResult = true;
 
                 for (UserResponse user : mUserResponse
@@ -133,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     mUserWrapper.setNomUtilisateur(user.getmUsername());
                     mUserWrapper.setMotDePasse(user.getmPassword());
 
-                    ReceiveUsers.add(mUserWrapper);
+                    receiveUsers.add(mUserWrapper);
 
                     Log.v(TAG, "nom emplacement ="
                             + mUserWrapper.getNom());
@@ -163,7 +206,9 @@ public class MainActivity extends AppCompatActivity {
                     if (mResult == true) {
                         Log.v(TAG, "chargement réussite");
 
-                        showUsersList();
+                        //showUsersList();
+                        mAdapter.notifyDataSetChanged();
+
 
                     } else {
                         Toast.makeText(getApplicationContext(),
@@ -181,8 +226,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showUsersList() {
-        ReceiveUsers.get(0);
-        for (UserWrapper userWrapper :ReceiveUsers) {
+
+        for (UserWrapper userWrapper : receiveUsers) {
 
             Log.v(TAG, "ReceiveUsers => userWrapper name ="
                     + userWrapper.getNom());
