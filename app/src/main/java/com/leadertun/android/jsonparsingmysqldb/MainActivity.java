@@ -5,10 +5,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.leadertun.android.jsonparsingmysqldb.adapter.UserAdapter;
+import com.leadertun.android.jsonparsingmysqldb.adapter.callback.SimpleItemTouchHelperCallback;
 import com.leadertun.android.jsonparsingmysqldb.wrapper.response.MyResponse.UserResponse;
 
 import com.google.gson.Gson;
@@ -26,8 +29,9 @@ import com.leadertun.android.jsonparsingmysqldb.wrapper.response.MyResponse.User
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements UserAdapter.NotifyChangeListListener {
 
+    private ItemTouchHelper mItemTouchHelper;
 
     public final static String TAG = "MainActivity";
 
@@ -36,14 +40,17 @@ public class MainActivity extends AppCompatActivity {
 
     private User mUserResponse;
 
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     boolean mResult = false;
 
     private ArrayList<UserWrapper> receiveUsers;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter<UserAdapter.ViewHolder> mAdapter;
+    private UserAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         mUserWrapper.setMotDePasse("you");
 
         receiveUsers.add(mUserWrapper);
+
     }
 
     @Override
@@ -120,12 +128,48 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new UserAdapter(receiveUsers);
+        //mAdapter = new UserAdapter(receiveUsers);
+        mAdapter = new UserAdapter(getApplicationContext(), this, receiveUsers);
+
         mRecyclerView.setAdapter(mAdapter);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                receiveUsers.clear();
+                updateListUsers();
+                // Stop refresh animation
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     private void updateListUsers() {
         new listUsersAsyncTask().execute();
+
+    }
+
+    @Override
+    public void onRemoveItemFromList(int position, UserWrapper user) {
+
+        removeItemFromList(position, user);
+
+    }
+
+    private void removeItemFromList(int position, UserWrapper user) {
+
+        Log.i(TAG, "item removed from position = " + position + " with IdUser = " + user.getId());
+        receiveUsers.remove(user);
+        mAdapter.notifyItemRemoved(position);
+
+        String data = MyHelper
+                .UserData(null, "user");
 
     }
 
