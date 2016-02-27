@@ -52,8 +52,8 @@ public class UserAdapter extends
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mItemName.setText(mObjectsList.get(position).getNom());
-        holder.mItemAge.setText(Integer.toString(mObjectsList.get(position).getmAge()));
+        holder.mItemName.setText(mObjectsList.get(position).getEmail());
+        holder.mItemAge.setText(mObjectsList.get(position).getPassword());
 
         holder.mItemPhoto.setImageResource(R.drawable.user_profile);
 //        holder.mItemPhoto.setImageResource(Integer.parseInt(mObjectsList.get(position)

@@ -81,12 +81,8 @@ public class MainActivity extends AppCompatActivity implements UserAdapter.Notif
         mUserWrapper = new UserWrapper();
 
         mUserWrapper.setId(1);
-        mUserWrapper.setNom("adnen");
-        mUserWrapper.setTel(22425893);
-        mUserWrapper.setmAge(30);
-        mUserWrapper.setmMail("adnen.hamdouni@gmail.com");
-        mUserWrapper.setNomUtilisateur("me");
-        mUserWrapper.setMotDePasse("you");
+        mUserWrapper.setEmail("adnen.hamdouni@gmail.com");
+        mUserWrapper.setPassword("you");
 
         receiveUsers.add(mUserWrapper);
 
@@ -213,17 +209,13 @@ public class MainActivity extends AppCompatActivity implements UserAdapter.Notif
                     mUserWrapper = new UserWrapper();
 
                     mUserWrapper.setId(user.getmId());
-                    mUserWrapper.setNom(user.getmName());
-                    mUserWrapper.setTel(user.getmPhone());
-                    mUserWrapper.setmAge(user.getmAge());
-                    mUserWrapper.setmMail(user.getmMail());
-                    mUserWrapper.setNomUtilisateur(user.getmUsername());
-                    mUserWrapper.setMotDePasse(user.getmPassword());
+                    mUserWrapper.setEmail(user.getEmail());
+                    mUserWrapper.setPassword(user.getPassword());
 
                     receiveUsers.add(mUserWrapper);
 
                     Log.v(TAG, "nom emplacement ="
-                            + mUserWrapper.getNom());
+                            + mUserWrapper.getEmail());
 
                 }
             }
@@ -274,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements UserAdapter.Notif
         for (UserWrapper userWrapper : receiveUsers) {
 
             Log.v(TAG, "ReceiveUsers => userWrapper name ="
-                    + userWrapper.getNom());
+                    + userWrapper.getEmail());
 
         }
     }

@@ -18,8 +18,8 @@ public class MyHelper {
 
     public final static String TAG = "MedinaArbi";
 
-    public static final String BASE_SERVER_URL = "http://192.168.1.100/tutorial_php5/mobile/";
-    public static final String BASE_GET_ALL_USERS_URL = "get_all_users.php";
+    public static final String BASE_SERVER_URL = "http://192.168.1.4/android/";
+    public static final String BASE_GET_ALL_USERS_URL = "showusers2.php";
 
     public static String UserData(String baseUrl, String state) {
 
