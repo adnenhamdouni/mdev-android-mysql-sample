@@ -126,17 +126,13 @@ public class MainActivity extends AppCompatActivity {
                     mUserWrapper = new UserWrapper();
 
                     mUserWrapper.setId(user.getmId());
-                    mUserWrapper.setNom(user.getmName());
-                    mUserWrapper.setTel(user.getmPhone());
-                    mUserWrapper.setmAge(user.getmAge());
-                    mUserWrapper.setmMail(user.getmMail());
-                    mUserWrapper.setNomUtilisateur(user.getmUsername());
-                    mUserWrapper.setMotDePasse(user.getmPassword());
+                    mUserWrapper.setEmail(user.getEmail());
+                    mUserWrapper.setPassword(user.getPassword());
 
                     ReceiveUsers.add(mUserWrapper);
 
                     Log.v(TAG, "nom emplacement ="
-                            + mUserWrapper.getNom());
+                            + mUserWrapper.getEmail());
 
                 }
             }
@@ -185,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         for (UserWrapper userWrapper :ReceiveUsers) {
 
             Log.v(TAG, "ReceiveUsers => userWrapper name ="
-                    + userWrapper.getNom());
+                    + userWrapper.getEmail());
 
         }
     }

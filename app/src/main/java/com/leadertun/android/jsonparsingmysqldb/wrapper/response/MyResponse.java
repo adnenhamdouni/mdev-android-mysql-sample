@@ -58,28 +58,15 @@ public class MyResponse {
 
         @SerializedName("id")
         private int mId;
-        @SerializedName("name")
-        private String mName;
-        @SerializedName("age")
-        private int mAge;
-        @SerializedName("phone")
-        private int mPhone;
-        @SerializedName("mail")
-        private String mMail;
-        @SerializedName("username")
-        private String mUsername;
+        @SerializedName("email")
+        private String mEmail;
         @SerializedName("password")
         private String mPassword;
 
-        public UserResponse(int id, String name, int age, int phone,
-                           String mail, String username, String password) {
+        public UserResponse(int id, String email, String password) {
 
             this.mId = id;
-            this.mName = name;
-            this.mAge = age;
-            this.mPhone = phone;
-            this.mMail = mail;
-            this.mUsername = username;
+            this.mEmail = email;
             this.mPassword = password;
         }
 
@@ -91,52 +78,20 @@ public class MyResponse {
             this.mId = mId;
         }
 
-        public String getmName() {
-            return mName;
+        public String getEmail() {
+            return mEmail;
         }
 
-        public void setmName(String mName) {
-            this.mName = mName;
+        public void setEmail(String email) {
+            this.mEmail = email;
         }
 
-        public int getmAge() {
-            return mAge;
-        }
-
-        public void setmAge(int mAge) {
-            this.mAge = mAge;
-        }
-
-        public int getmPhone() {
-            return mPhone;
-        }
-
-        public void setmPhone(int mPhone) {
-            this.mPhone = mPhone;
-        }
-
-        public String getmMail() {
-            return mMail;
-        }
-
-        public void setmMail(String mMail) {
-            this.mMail = mMail;
-        }
-
-        public String getmUsername() {
-            return mUsername;
-        }
-
-        public void setmUsername(String mUsername) {
-            this.mUsername = mUsername;
-        }
-
-        public String getmPassword() {
+        public String getPassword() {
             return mPassword;
         }
 
-        public void setmPassword(String mPassword) {
-            this.mPassword = mPassword;
+        public void setPassword(String password) {
+            this.mPassword = password;
         }
     }
 }
