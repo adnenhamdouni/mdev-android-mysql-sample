@@ -1,6 +1,7 @@
 package com.leadertun.android.jsonparsingmysqldb;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -63,16 +64,23 @@ public class MainActivity extends AppCompatActivity implements UserAdapter.Notif
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                 //       .setAction("Action", null).show();
+                Intent i = new Intent(getApplicationContext(), InsertActivity.class);
+                startActivity(i);
             }
         });
 
         initRecyclerView();
-        updateListUsers();
         //initData();
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateListUsers();
     }
 
     private void initData() {
@@ -192,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements UserAdapter.Notif
                     .UserData(null, "users");
 
 
+            receiveUsers.clear();
+
             Log.v(TAG, "data = "+data);
 
             Gson gson = new GsonBuilder().create();
@@ -270,4 +280,6 @@ public class MainActivity extends AppCompatActivity implements UserAdapter.Notif
 
         }
     }
+
+
 }
